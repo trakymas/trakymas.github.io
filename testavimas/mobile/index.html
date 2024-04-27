@@ -3,18 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Device Detection</title>
-<script>
-    // JavaScript code to detect if the device is a mobile or desktop
-    if (/Mobi/.test(navigator.userAgent)) {
-        // Display "Hello, you are using mobile" if it's a mobile device
-        document.write("<p>Hello, you are using mobile</p>");
-    } else {
-        // Display "Hello, you are using desktop" if it's not a mobile device
-        document.write("<p>Hello, you are using desktop</p>");
+<title>Coagulation Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
     }
-</script>
+    .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .input-group {
+        margin-bottom: 20px;
+    }
+</style>
 </head>
 <body>
+
+<div id="welcomeScreen" class="container">
+    <h2>Hello, welcome to the coagulation calculator</h2>
+    <button onclick="showInputScreen()">Start</button>
+</div>
+
+<div id="inputScreen" class="container" style="display: none;">
+    <h2>Please enter the ISTH BAT score</h2>
+    <div class="input-group">
+        <input type="number" id="isthBatInput" min="1" max="7">
+    </div>
+    <button onclick="showEmailScreen()">Continue</button>
+</div>
+
+<div id="emailScreen" class="container" style="display: none;">
+    <h2>Please enter your email</h2>
+    <div class="input-group">
+        <input type="email" id="emailInput">
+    </div>
+    <button>Submit</button>
+</div>
+
+<script>
+    function showInputScreen() {
+        document.getElementById("welcomeScreen").style.display = "none";
+        document.getElementById("inputScreen").style.display = "block";
+    }
+
+    function showEmailScreen() {
+        var isthBatScore = document.getElementById("isthBatInput").value;
+        if (!isthBatScore || isNaN(isthBatScore) || isthBatScore < 1 || isthBatScore > 7) {
+            alert("Please enter a valid ISTH BAT score between 1 and 7.");
+            return;
+        }
+        document.getElementById("inputScreen").style.display = "none";
+        document.getElementById("emailScreen").style.display = "block";
+    }
+</script>
+
 </body>
 </html>
