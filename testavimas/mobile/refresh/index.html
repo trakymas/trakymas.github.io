@@ -30,15 +30,29 @@
     var randomCodeElement = document.getElementById('randomCode');
 
     // Check if the code is already stored in session storage
-    if (sessionStorage.getItem('randomCode')) {
-      // Get the code from session storage and display it
-      var storedCode = sessionStorage.getItem('randomCode');
-      randomCodeElement.textContent = storedCode;
+    if (sessionStorage.getItem('refreshCount')) {
+      // Get the refresh count from session storage
+      var refreshCount = parseInt(sessionStorage.getItem('refreshCount'));
+
+      if (refreshCount === 1) {
+        // If it's the first refresh, get the code from session storage and display it
+        var storedCode = sessionStorage.getItem('randomCode');
+        randomCodeElement.textContent = storedCode;
+      } else if (refreshCount === 2) {
+        // If it's the second refresh, generate a new code, display it, and update the refresh count
+        var newCode = generateRandomCode();
+        randomCodeElement.textContent = newCode;
+        sessionStorage.setItem('randomCode', newCode);
+      }
+      
+      // Increment the refresh count and store it back in session storage
+      sessionStorage.setItem('refreshCount', refreshCount + 1);
     } else {
-      // If no code is stored, generate a new code, display it, and store it in session storage
-      var newCode = generateRandomCode();
-      randomCodeElement.textContent = newCode;
-      sessionStorage.setItem('randomCode', newCode);
+      // If no refresh count is stored, initialize it to 1 and generate a new code
+      var firstCode = generateRandomCode();
+      randomCodeElement.textContent = firstCode;
+      sessionStorage.setItem('randomCode', firstCode);
+      sessionStorage.setItem('refreshCount', 1);
     }
   </script>
 </body>
