@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Number Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .code {
+      font-size: 24px;
+      font-weight: bold;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Random Number Generator</h1>
+  <div class="code" id="randomCode"></div>
+
+  <script>
+    // Function to generate a random 5-digit number
+    function generateRandomCode() {
+      return Math.floor(10000 + Math.random() * 90000);
+    }
+
+    // Get the random code element
+    var randomCodeElement = document.getElementById('randomCode');
+
+    // Check if code is already generated in session storage
+    if (sessionStorage.getItem('randomCode')) {
+      // Display the previously generated code
+      randomCodeElement.textContent = sessionStorage.getItem('randomCode');
+    } else {
+      // Generate a new code
+      var newCode = generateRandomCode();
+      // Display the new code
+      randomCodeElement.textContent = newCode;
+      // Store the new code in session storage
+      sessionStorage.setItem('randomCode', newCode);
+    }
+  </script>
+</body>
+</html>
