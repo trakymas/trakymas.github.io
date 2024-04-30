@@ -33,18 +33,9 @@
     // Get the random code element
     var randomCodeElement = document.getElementById('randomCode');
 
-    // Check if code is already generated in session storage
-    if (sessionStorage.getItem('randomCode')) {
-      // Display the previously generated code
-      randomCodeElement.textContent = sessionStorage.getItem('randomCode');
-    } else {
-      // Generate a new code
-      var newCode = generateRandomCode();
-      // Display the new code
-      randomCodeElement.textContent = newCode;
-      // Store the new code in session storage
-      sessionStorage.setItem('randomCode', newCode);
-    }
+    // Generate a new code and display it
+    var newCode = generateRandomCode();
+    randomCodeElement.textContent = newCode;
   </script>
 </body>
 </html>
