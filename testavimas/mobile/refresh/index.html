@@ -33,9 +33,23 @@
     // Get the random code element
     var randomCodeElement = document.getElementById('randomCode');
 
-    // Generate a new code and display it
-    var newCode = generateRandomCode();
-    randomCodeElement.textContent = newCode;
+    // Check if the code is already stored in session storage
+    if (sessionStorage.getItem('refreshCount')) {
+      // Get the refresh count from session storage
+      var refreshCount = parseInt(sessionStorage.getItem('refreshCount'));
+
+      // If the refresh count is odd, generate a new code and display it
+      if (refreshCount % 2 !== 0) {
+        var newCode = generateRandomCode();
+        randomCodeElement.textContent = newCode;
+      }
+      
+      // Increment the refresh count and store it back in session storage
+      sessionStorage.setItem('refreshCount', refreshCount + 1);
+    } else {
+      // If no refresh count is stored, initialize it to 1
+      sessionStorage.setItem('refreshCount', 1);
+    }
   </script>
 </body>
 </html>
