@@ -3,24 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View PDF Document</title>
+    <title>Display PDF</title>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        #canvas-container {
+            width: 100%;
+            height: 100vh;
+            overflow: auto;
+            background: #333;
+            text-align: center;
+            padding: 20px;
         }
-        iframe {
-            width: 80%; /* or 100% if you want it to take the full width */
-            height: 90vh; /* Adjust height to fit within your view */
-            border: none; /* Removes default border around the iframe */
+        canvas {
+            border: 1px solid black;
+            margin: 5px;
         }
     </style>
 </head>
 <body>
-    <iframe src="https://drive.google.com/file/d/1OPAbRCknCPMY6QB4W4xTHRPexDQLdKGa/preview" allow="fullscreen;"></iframe>
+    <div id="canvas-container">
+        <canvas id="pdf-render"></canvas>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+    <script>
+        const url = 'https://trakymas.github.io/SICP/SICPAbstractbook.pdf'; // Replace with the path to your PDF file
+
+        let pdfDoc = null,
+            pageNum = 1,
+            pageIsRendering = false,
+            pageNumIsPending = null;
+
+        const scale = 1.5,
+            canvas = document.querySelector('#pdf-render'),
+            ctx = canvas.getContext('2d');
+
+        // Render the page
+        const renderPage = num => {
+            pageIsRendering = true;
+
+            // Get page
+            pdfDoc.getPage(num).then(page => {
+                // Set scale
+                const viewport = page.getViewport({ scale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderCtx = {
+                    canvasContext: ctx,
+                    viewport
+                };
+
+                page.render(renderCtx).promise.then(() => {
+                    pageIsRendering = false;
+
+                    if (pageNumIsPending !== null) {
+                        renderPage(pageNumIsPending);
+                        pageNumIsPending = null;
+                    }
+                });
+
+                // Output current page
+                document.querySelector('#page-num').textContent = num;
+            });
+        };
+
+        // Check for pages rendering
+        const queueRenderPage = num => {
+            if (pageIsRendering) {
+                pageNumIsPending = num;
+            } else {
+                renderPage(num);
+            }
+        };
+
+        // Get Document
+        pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
+            pdfDoc = pdfDoc_;
+
+            document.querySelector('#page-count').textContent = pdfDoc.numPages;
+
+            renderPage(pageNum);
+        });
+
+        // Button Events
+        document.querySelector('#prev-page').addEventListener('click', () => {
+            if (pageNum <= 1) {
+                return;
+            }
+            pageNum--;
+            queueRenderPage(pageNum);
+        });
+
+        document.querySelector('#next-page').addEventListener('click', () => {
+            if (pageNum >= pdfDoc.numPages) {
+                return;
+            }
+            pageNum++;
+            queueRenderPage(pageNum);
+        });
+    </script>
 </body>
 </html>
