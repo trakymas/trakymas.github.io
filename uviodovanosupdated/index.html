@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Gift Unwrap</title>
+    <title>Unwrap the Gifts</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,61 +31,33 @@
         button:hover {
             background-color: #0056b3;
         }
-        input {
-            padding: 10px;
-            font-size: 16px;
-            margin: 10px 0;
-            width: 80%;
-        }
     </style>
 </head>
 <body>
-    <h1>Unwrap the Gift!</h1>
+    <h1>Unwrap the Gifts!</h1>
 
-    <!-- Initial Gift Image -->
+    <!-- Present 1 -->
     <div>
-        <img id="gift" src="image1.jpg" alt="Wrapped Gift">
-        <button id="giftButton" onclick="unwrapGift()">Unwrap Gift</button>
+        <img id="gift1" src="image1.jpg" alt="Wrapped Gift 1">
+        <button id="unwrap1" onclick="unwrapGift('gift1', 'image1_unwrapped.jpg', 'findOutMore1')">Unwrap Gift 1</button>
+        <!-- "FIND OUT MORE" button, initially hidden -->
+        <button id="findOutMore1" style="display: none;" onclick="window.location.href='https://example.com';">FIND OUT MORE</button>
     </div>
 
-    <!-- Input and Submit Section -->
-    <div id="inputSection" style="display: none;">
-        <input id="answer" type="text" placeholder="Enter your answer">
-        <button onclick="checkAnswer()">Submit</button>
+    <!-- Present 2 -->
+    <div>
+        <img id="gift2" src="image2.jpg" alt="Wrapped Gift 2">
+        <button onclick="unwrapGift('gift2', 'image2_unwrapped.jpg')">Unwrap Gift 2</button>
     </div>
 
     <script>
-        let step = 1; // Step tracker for interactions
+        function unwrapGift(imageId, newSrc, moreButtonId = null) {
+            // Change the image source to the unwrapped version
+            document.getElementById(imageId).src = newSrc;
 
-        function unwrapGift() {
-            const giftImage = document.getElementById("gift");
-            const giftButton = document.getElementById("giftButton");
-
-            if (step === 1) {
-                // First unwrap: Show second image and update button text
-                giftImage.src = "image2.jpg";
-                giftButton.textContent = "Take me further";
-                step++;
-            } else if (step === 2) {
-                // Second interaction: Show input field and hide button
-                giftButton.style.display = "none";
-                document.getElementById("inputSection").style.display = "block";
-            }
-        }
-
-        function checkAnswer() {
-            const answer = document.getElementById("answer").value.trim();
-            const giftImage = document.getElementById("gift");
-
-            // Correct answers
-            const validAnswers = ["12", "65", "4√10", "4x10^(1/2)"];
-
-            if (validAnswers.includes(answer)) {
-                // Show the third image on correct answer
-                giftImage.src = "image3.jpg";
-                document.getElementById("inputSection").style.display = "none";
-            } else {
-                alert("Incorrect answer. Try again!");
+            // If a "FIND OUT MORE" button is associated, make it visible
+            if (moreButtonId) {
+                document.getElementById(moreButtonId).style.display = "inline-block";
             }
         }
     </script>
