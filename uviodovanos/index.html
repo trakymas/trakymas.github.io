@@ -38,20 +38,27 @@
 
     <!-- Present 1 -->
     <div>
-        <img id="gift1" src="image1.png" alt="Wrapped Gift 1">
-        <button onclick="unwrapGift('gift1', 'image2.jpg')">Unwrap Gift 1</button>
+        <img id="gift1" src="image1.jpg" alt="Wrapped Gift 1">
+        <button id="unwrap1" onclick="unwrapGift('gift1', 'image2.jpg', 'findOutMore1')">Unwrap Gift 1</button>
+        <!-- "FIND OUT MORE" button, initially hidden -->
+        <button id="findOutMore1" style="display: none;" onclick="window.location.href='https://example.com';">FIND OUT MORE</button>
     </div>
 
     <!-- Present 2 -->
     <div>
-        <img id="gift2" src="image5.png" alt="Wrapped Gift 2">
-        <button onclick="unwrapGift('gift2', 'image4.png')">Unwrap Gift 2</button>
+        <img id="gift2" src="image5.jpg" alt="Wrapped Gift 2">
+        <button onclick="unwrapGift('gift2', 'image4.jpg')">Unwrap Gift 2</button>
     </div>
 
     <script>
-        function unwrapGift(imageId, newSrc) {
+        function unwrapGift(imageId, newSrc, moreButtonId = null) {
             // Change the image source to the unwrapped version
             document.getElementById(imageId).src = newSrc;
+
+            // If a "FIND OUT MORE" button is associated, make it visible
+            if (moreButtonId) {
+                document.getElementById(moreButtonId).style.display = "inline-block";
+            }
         }
     </script>
 </body>
