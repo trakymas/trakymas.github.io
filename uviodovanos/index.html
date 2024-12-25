@@ -3,43 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Unwrap</title>
+    <title>Unwrap the Gifts</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 50px;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
         }
         img {
-            max-width: 100%;
-            height: auto;
+            max-width: 100%; /* Ensures images resize for any screen */
+            width: 90%; /* Scales images down to fit iPhone 13 screen */
+            height: auto; /* Keeps the aspect ratio */
+            margin: 10px 0;
         }
         button {
-            margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
-            cursor: pointer;
-            background-color: #4CAF50;
             color: white;
+            background-color: #007bff;
             border: none;
             border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>Click to Unwrap the Surprise!</h1>
-    <img id="image" src="image1.png" alt="Wrapped gift">
-    <br>
-    <button onclick="changeImage()">Unwrap</button>
+    <h1>Unwrap the Gifts!</h1>
+
+    <!-- Present 1 -->
+    <div>
+        <img id="gift1" src="image1.jpg" alt="Wrapped Gift 1">
+        <button onclick="unwrapGift('gift1', 'image1_unwrapped.jpg')">Unwrap Gift 1</button>
+    </div>
+
+    <!-- Present 2 -->
+    <div>
+        <img id="gift2" src="image2.jpg" alt="Wrapped Gift 2">
+        <button onclick="unwrapGift('gift2', 'image2_unwrapped.jpg')">Unwrap Gift 2</button>
+    </div>
 
     <script>
-        function changeImage() {
-            const imageElement = document.getElementById('image');
-            imageElement.src = 'image2.jpg';
-            imageElement.alt = 'Unwrapped gift';
+        function unwrapGift(imageId, newSrc) {
+            // Change the image source to the unwrapped version
+            document.getElementById(imageId).src = newSrc;
         }
     </script>
 </body>
