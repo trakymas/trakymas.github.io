@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Gift Unwrap</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+        img {
+            max-width: 100%; /* Ensures images resize for any screen */
+            width: 90%; /* Scales images down to fit iPhone 13 screen */
+            height: auto; /* Keeps the aspect ratio */
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Unwrap the Gift!</h1>
+
+    <!-- Initial Gift Image -->
+    <div>
+        <img id="gift" src="image1.jpg" alt="Wrapped Gift">
+        <button id="giftButton" onclick="unwrapGift()">Unwrap Gift</button>
+    </div>
+
+    <!-- Input and Submit Section -->
+    <div id="inputSection" style="display: none;">
+        <input id="answer" type="text" placeholder="Enter your answer">
+        <button onclick="checkAnswer()">Submit</button>
+    </div>
+
+    <script>
+        let step = 1; // Step tracker for interactions
+
+        function unwrapGift() {
+            const giftImage = document.getElementById("gift");
+            const giftButton = document.getElementById("giftButton");
+
+            if (step === 1) {
+                // First unwrap: Show second image and update button text
+                giftImage.src = "image2.jpg";
+                giftButton.textContent = "Take me further";
+                step++;
+            } else if (step === 2) {
+                // Second interaction: Show input field and hide button
+                giftButton.style.display = "none";
+                document.getElementById("inputSection").style.display = "block";
+            }
+        }
+
+        function checkAnswer() {
+            const answer = document.getElementById("answer").value.trim();
+            const giftImage = document.getElementById("gift");
+
+            // Correct answers
+            const validAnswers = ["12", "65", "4√10", "4x10^(1/2)"];
+
+            if (validAnswers.includes(answer)) {
+                // Show the third image on correct answer
+                giftImage.src = "image3.jpg";
+                document.getElementById("inputSection").style.display = "none";
+            } else {
+                alert("Incorrect answer. Try again!");
+            }
+        }
+    </script>
+</body>
+</html>
