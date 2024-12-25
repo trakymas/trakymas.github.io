@@ -3,20 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unwrap the Gifts</title>
+    <title>Interactive Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f7f7f7;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 20px;
         }
         img {
-            max-width: 100%; /* Ensures images resize for any screen */
-            width: 90%; /* Scales images down to fit iPhone 13 screen */
-            height: auto; /* Keeps the aspect ratio */
+            max-width: 90%; /* Scales image to fit iPhone 13 screen */
+            height: auto;
+            margin: 20px 0;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 80%;
             margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
         button {
             padding: 10px 20px;
@@ -26,7 +33,6 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin: 10px 0;
         }
         button:hover {
             background-color: #0056b3;
@@ -34,30 +40,25 @@
     </style>
 </head>
 <body>
-    <h1>Unwrap the Gifts!</h1>
+    <h1>Interactive Challenge</h1>
 
-    <!-- Present 1 -->
-    <div>
-        <img id="gift1" src="image1.jpg" alt="Wrapped Gift 1">
-        <button id="unwrap1" onclick="unwrapGift('gift1', 'image1_unwrapped.jpg', 'findOutMore1')">Unwrap Gift 1</button>
-        <!-- "FIND OUT MORE" button, initially hidden -->
-        <button id="findOutMore1" style="display: none;" onclick="window.location.href='https://example.com';">FIND OUT MORE</button>
-    </div>
+    <!-- Initial Image -->
+    <img id="mainImage" src="image1.png" alt="Initial Image">
 
-    <!-- Present 2 -->
-    <div>
-        <img id="gift2" src="image2.jpg" alt="Wrapped Gift 2">
-        <button onclick="unwrapGift('gift2', 'image2_unwrapped.jpg')">Unwrap Gift 2</button>
-    </div>
+    <!-- Entry Field and Submit Button -->
+    <input type="text" id="answerField" placeholder="Enter your answer">
+    <button onclick="checkAnswer()">Submit</button>
 
     <script>
-        function unwrapGift(imageId, newSrc, moreButtonId = null) {
-            // Change the image source to the unwrapped version
-            document.getElementById(imageId).src = newSrc;
+        function checkAnswer() {
+            const correctAnswers = ["12,65", "4√10", "4x10^(1/2)"];
+            const userAnswer = document.getElementById("answerField").value.trim();
 
-            // If a "FIND OUT MORE" button is associated, make it visible
-            if (moreButtonId) {
-                document.getElementById(moreButtonId).style.display = "inline-block";
+            // Check if the entered answer is correct
+            if (correctAnswers.includes(userAnswer)) {
+                document.getElementById("mainImage").src = "image2.png"; // Change to second image
+            } else {
+                alert("Incorrect answer. Please try again.");
             }
         }
     </script>
