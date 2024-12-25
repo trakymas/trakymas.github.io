@@ -31,14 +31,14 @@
 </head>
 <body>
     <h1>Click to Unwrap the Surprise!</h1>
-    <img id="image" src="image1.jpg" alt="Wrapped gift">
+    <img id="image" src="image1.png" alt="Wrapped gift">
     <br>
     <button onclick="changeImage()">Unwrap</button>
 
     <script>
         function changeImage() {
             const imageElement = document.getElementById('image');
-            imageElement.src = 'image2.png';
+            imageElement.src = 'image2.jpg';
             imageElement.alt = 'Unwrapped gift';
         }
     </script>
