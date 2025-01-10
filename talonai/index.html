@@ -9,19 +9,35 @@
             max-width: 100%;
             height: auto;
             display: block;
-            margin: 0 auto;
+            margin: 10px auto;
+        }
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <button id="startButton">Start Video</button>
     <video id="videoPlayer" controls>
-        <source src="https://trakymas.github.io/talonai.mp4" type="video/mp4">
+        <source src="https://drive.google.com/uc?export=download&id=1A73T-k5erAUq9QpzJ0rSlZeVGlowYY53" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
     <script>
         const video = document.getElementById('videoPlayer');
-        video.currentTime = 0; // Ensure the video starts at 0 seconds
+        const startButton = document.getElementById('startButton');
+
+        // Ensure the video starts at 0 seconds
+        video.currentTime = 0;
+
+        // Play the video when the button is clicked
+        startButton.addEventListener('click', () => {
+            video.play();
+        });
     </script>
 </body>
 </html>
