@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive Video Player</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
         video {
             max-width: 100%;
             height: auto;
@@ -16,14 +21,21 @@
             margin: 10px auto;
             padding: 10px 20px;
             font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <button id="startButton">Start Video</button>
     <video id="videoPlayer" controls>
-        <source src="https://trakymas.github.io/talonai.mp4" type="video/mp4">
+        <source src="https://labas.github.io/talonai.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
@@ -31,12 +43,10 @@
         const video = document.getElementById('videoPlayer');
         const startButton = document.getElementById('startButton');
 
-        // Ensure the video starts at 0 seconds
-        video.currentTime = 0;
-
-        // Play the video when the button is clicked
+        // Add event listener to the button
         startButton.addEventListener('click', () => {
-            video.play();
+            video.currentTime = 0; // Ensure video starts at the beginning
+            video.play().catch(error => console.error("Error playing video:", error));
         });
     </script>
 </body>
