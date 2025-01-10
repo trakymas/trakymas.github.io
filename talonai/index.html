@@ -14,9 +14,14 @@
     </style>
 </head>
 <body>
-    <video controls>
+    <video id="videoPlayer" controls>
         <source src="https://trakymas.github.io/talonai.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
+
+    <script>
+        const video = document.getElementById('videoPlayer');
+        video.currentTime = 0; // Ensure the video starts at 0 seconds
+    </script>
 </body>
 </html>
