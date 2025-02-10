@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiologinės Aprašymo Formos Generatorius</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        select, button { margin: 5px; padding: 10px; font-size: 16px; }
+        #output { margin-top: 20px; white-space: pre-line; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h2>Radiologinės Aprašymo Formos Generatorius</h2>
+    <label>Rentgenogramos tipas:</label>
+    <select id="xrayType">
+        <option value="tiesinėje r-gramoje">tiesinėje r-gramoje</option>
+        <option value="2-jų krypčių r-gramose">2-jų krypčių r-gramose</option>
+    </select>
+    <br>
+    <label>Pridėti išvadą:</label>
+    <select id="addConclusion">
+        <option value=", išvada:">Taip</option>
+        <option value="">Ne</option>
+    </select>
+    <br>
+    <label>Pleuros ertmės:</label>
+    <select id="pleura">
+        <option value="Pleuros ertmėse skysčio nematyti.">Pleuros ertmėse skysčio nematyti</option>
+        <option value="Pleuros ertmėse ženklesnio skysčio kiekio nematyti.">Pleuros ertmėse ženklesnio skysčio kiekio nematyti</option>
+        <option value="Dešinėje pleuros ertmėje.">Dešinėje pleuros ertmėje</option>
+        <option value="Kairėje pleuros ertmėje.">Kairėje pleuros ertmėje</option>
+        <option value="Abipus pleuros ertmėse.">Abipus pleuros ertmėse</option>
+    </select>
+    <br>
+    <label>Plaučiai:</label>
+    <select id="lungs">
+        <option value="Plaučiuose infiltracinių, židininių, stazinių pakitimų nematyti.">Plaučiuose infiltracinių, židininių, stazinių pakitimų nematyti</option>
+        <option value="Plaučiuose matomi židiniai.">Plaučiuose matomi židiniai</option>
+        <option value="Plaučiuose stebima infiltracija.">Plaučiuose stebima infiltracija</option>
+        <option value="Plaučiuose staziniai pakitimai.">Plaučiuose staziniai pakitimai</option>
+    </select>
+    <br>
+    <label>Šaknys:</label>
+    <select id="roots">
+        <option value="Šaknys struktūrinės, neplėstos.">Šaknys struktūrinės, neplėstos</option>
+        <option value="Šaknys struktūrinės, plėstos.">Šaknys struktūrinės, plėstos</option>
+        <option value="Šaknys nestruktūrinės, neplėstos.">Šaknys nestruktūrinės, neplėstos</option>
+        <option value="Kairė šaknis nestruktūrinė, plėsta.">Kairė šaknis nestruktūrinė, plėsta</option>
+        <option value="Dešinė šaknis nestruktūrinė, plėsta.">Dešinė šaknis nestruktūrinė, plėsta</option>
+    </select>
+    <br>
+    <label>Širdis ir aorta:</label>
+    <select id="heartAorta">
+        <option value="">Nieko ypatingo (nenaudosime aprašyme)</option>
+        <option value="Širdies skersmuo praplitęs.">Širdies skersmuo praplitęs</option>
+        <option value="Aorta intensyvi, prailgėjusi.">Aorta intensyvi, prailgėjusi</option>
+    </select>
+    <br>
+    <button onclick="generateReport()">Generuoti</button>
+    <button onclick="copyToClipboard()">Kopijuoti į iškarpinę</button>
+    
+    <h3>Rezultatas:</h3>
+    <div id="output"></div>
+    
+    <script>
+        function generateReport() {
+            let text = "Krūtinės ląstos organų " + document.getElementById("xrayType").value;
+            text += document.getElementById("addConclusion").value + "\n";
+            text += document.getElementById("pleura").value + "\n";
+            text += document.getElementById("lungs").value + "\n";
+            text += document.getElementById("roots").value + "\n";
+            let heartAorta = document.getElementById("heartAorta").value;
+            if (heartAorta) text += heartAorta + "\n";
+            document.getElementById("output").innerText = text;
+        }
+        
+        function copyToClipboard() {
+            let text = document.getElementById("output").innerText;
+            if (!text) {
+                alert("Pirma sugeneruokite tekstą.");
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Tekstas nukopijuotas į iškarpinę!");
+            }, () => {
+                alert("Nepavyko nukopijuoti teksto.");
+            });
+        }
+    </script>
+</body>
+</html>
