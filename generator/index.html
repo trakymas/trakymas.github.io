@@ -6,9 +6,9 @@
     <title>Radiologinės Aprašymo Formos Generatorius</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
-        .selector-container { display: inline-block; margin: 10px; position: relative; }
-        .selector { padding: 10px; border: 1px solid #ccc; cursor: pointer; }
-        .dropdown { display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ccc; width: 100%; }
+        .selector-container { display: block; margin: 10px; position: relative; }
+        .selector { padding: 10px; border: 1px solid #ccc; cursor: pointer; width: 300px; }
+        .dropdown { display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ccc; width: 300px; z-index: 1000; }
         .dropdown div { padding: 5px; cursor: pointer; }
         .dropdown div:hover, .dropdown div.selected { background: #ddd; }
         #output { margin-top: 20px; white-space: pre-line; padding: 10px; border: 1px solid #ccc; }
@@ -17,7 +17,7 @@
 <body>
     <h2>Radiologinės Aprašymo Formos Generatorius</h2>
     
-    <div class="selector-container" data-category="xrayType">
+    <div class="selector-container" data-category="xrayType" tabindex="0">
         <div class="selector">Pasirinkite rentgenogramos tipą</div>
         <div class="dropdown">
             <div data-value="tiesinėje r-gramoje">tiesinėje r-gramoje</div>
@@ -25,7 +25,7 @@
         </div>
     </div>
     
-    <div class="selector-container" data-category="pleura">
+    <div class="selector-container" data-category="pleura" tabindex="0">
         <div class="selector">Pasirinkite pleuros būklę</div>
         <div class="dropdown">
             <div data-value="Pleuros ertmėse skysčio nematyti.">Pleuros ertmėse skysčio nematyti</div>
@@ -48,7 +48,7 @@
             const dropdown = container.querySelector('.dropdown');
             let selectedIndex = 0;
             
-            selector.addEventListener('mouseenter', () => {
+            container.addEventListener('mouseenter', () => {
                 dropdown.style.display = 'block';
                 highlightOption(dropdown, selectedIndex);
             });
@@ -57,22 +57,16 @@
                 dropdown.style.display = 'none';
             });
             
-            dropdown.addEventListener('mouseover', event => {
-                if (event.target.dataset.value) {
-                    selectedIndex = Array.from(dropdown.children).indexOf(event.target);
-                    highlightOption(dropdown, selectedIndex);
-                }
-            });
-            
             container.addEventListener('keydown', event => {
+                const options = Array.from(dropdown.children);
                 if (event.key === 'ArrowDown') {
-                    selectedIndex = (selectedIndex + 1) % dropdown.children.length;
+                    selectedIndex = (selectedIndex + 1) % options.length;
                     highlightOption(dropdown, selectedIndex);
                 } else if (event.key === 'ArrowUp') {
-                    selectedIndex = (selectedIndex - 1 + dropdown.children.length) % dropdown.children.length;
+                    selectedIndex = (selectedIndex - 1 + options.length) % options.length;
                     highlightOption(dropdown, selectedIndex);
                 } else if (event.key === 'Enter') {
-                    selectOption(container, dropdown.children[selectedIndex]);
+                    selectOption(container, options[selectedIndex]);
                 }
             });
             
@@ -92,7 +86,11 @@
         function selectOption(container, option) {
             container.querySelector('.selector').textContent = option.textContent;
             container.dataset.selected = option.dataset.value;
-            container.nextElementSibling?.querySelector('.selector')?.focus();
+            dropdown.style.display = 'none';
+            const nextContainer = container.nextElementSibling;
+            if (nextContainer && nextContainer.classList.contains('selector-container')) {
+                nextContainer.focus();
+            }
         }
         
         function generateReport() {
