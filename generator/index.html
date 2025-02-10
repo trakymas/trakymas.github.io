@@ -57,6 +57,17 @@
                 dropdown.style.display = 'none';
             });
             
+            container.addEventListener('wheel', event => {
+                event.preventDefault();
+                const options = Array.from(dropdown.children);
+                if (event.deltaY > 0) {
+                    selectedIndex = (selectedIndex + 1) % options.length;
+                } else {
+                    selectedIndex = (selectedIndex - 1 + options.length) % options.length;
+                }
+                highlightOption(dropdown, selectedIndex);
+            });
+            
             container.addEventListener('keydown', event => {
                 const options = Array.from(dropdown.children);
                 if (event.key === 'ArrowDown') {
@@ -86,7 +97,6 @@
         function selectOption(container, option) {
             container.querySelector('.selector').textContent = option.textContent;
             container.dataset.selected = option.dataset.value;
-            dropdown.style.display = 'none';
             const nextContainer = container.nextElementSibling;
             if (nextContainer && nextContainer.classList.contains('selector-container')) {
                 nextContainer.focus();
